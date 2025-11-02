@@ -108,7 +108,14 @@ public final class ConfigIO {
     public static File getConfigFile(ConfigHolder<?> holder) {
         IConfigFormatHandler handler = holder.getFormat();
         String filename = holder.getFilename();
-        return new File("./config/" + filename + "." + handler.fileExt());
+	    String groupname = holder.getGroup();
+	    File nogroup = new File("./config/" + filename + "." + handler.fileExt());
+	    File group = new File("./config/" + groupname + "/" + filename + "." + handler.fileExt());
+         if (holder.getUnifiedFolder()) {
+	         return group;
+		 } else {
+			 return nogroup ;
+		 }
     }
 
     public static void serverStarted() {
